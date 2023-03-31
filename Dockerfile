@@ -1,8 +1,11 @@
-# syntax=docker/dockerfile:1
+# Use a lightweight Java image as a base
+FROM openjdk:8-jdk-alpine
 
-FROM node:18-alpine
+# Set the working directory
 WORKDIR /userService
-COPY . .
-RUN yarn install --production
-CMD ["node", "src/index.js"]
-EXPOSE 3000
+
+# Copy the application JAR into the container
+COPY target/userService-0.0.1-SNAPSHOT.jar .
+
+# Set the command to start the microservice
+CMD ["java", "-jar", "userService-0.0.1-SNAPSHOT.jar"]
